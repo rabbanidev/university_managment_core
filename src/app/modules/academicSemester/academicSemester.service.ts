@@ -36,9 +36,7 @@ const getAllSemesters = async (
   if (Object.keys(filtersData).length) {
     andConditions.push({
       AND: Object.entries(filtersData).map(([field, value]) => ({
-        [field]: {
-          equals: value,
-        },
+        [field]: { equals: value },
       })),
     });
   }
