@@ -69,6 +69,9 @@ const getAllAcademicDepartments = async (
     skip,
     take: limit,
     orderBy: sortConditions,
+    include: {
+      academicFaculty: true,
+    },
   });
 
   const total = await prisma.academicDepartment.count({
@@ -85,7 +88,23 @@ const getAllAcademicDepartments = async (
   };
 };
 
+const getAcademicDepartment = async (
+  id: string
+): Promise<AcademicDepartment | null> => {
+  const result = await prisma.academicDepartment.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      academicFaculty: true,
+    },
+  });
+
+  return result;
+};
+
 export const AcademicDepartmentService = {
   createAcademicDepartment,
   getAllAcademicDepartments,
+  getAcademicDepartment,
 };
