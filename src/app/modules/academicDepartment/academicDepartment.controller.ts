@@ -23,25 +23,27 @@ const createAcademicDepartment = catchAsync(
   }
 );
 
-const getAllDepartments = catchAsync(async (req: Request, res: Response) => {
-  const filters = pick(req.query, academicDepartmentFilterableFields);
-  const paginationOptions = pick(req.query, paginationFields);
+const getAllAcademicDepartments = catchAsync(
+  async (req: Request, res: Response) => {
+    const filters = pick(req.query, academicDepartmentFilterableFields);
+    const paginationOptions = pick(req.query, paginationFields);
 
-  const result = await AcademicDepartmentService.getAllDepartments(
-    filters,
-    paginationOptions
-  );
+    const result = await AcademicDepartmentService.getAllAcademicDepartments(
+      filters,
+      paginationOptions
+    );
 
-  sendResponse<AcademicDepartment[]>(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Academic departments retrive successfully!',
-    meta: result.meta,
-    data: result.data,
-  });
-});
+    sendResponse<AcademicDepartment[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Academic departments retrive successfully!',
+      meta: result.meta,
+      data: result.data,
+    });
+  }
+);
 
 export const AcademicDepartmentController = {
   createAcademicDepartment,
-  getAllDepartments,
+  getAllAcademicDepartments,
 };

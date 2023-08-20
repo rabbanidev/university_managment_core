@@ -23,7 +23,7 @@ const createAcademicDepartment = async (
   return result;
 };
 
-const getAllDepartments = async (
+const getAllAcademicDepartments = async (
   filters: IAcademicDepartmentFilters,
   paginationOptions: IPaginationOptions
 ): Promise<IGenericResponse<AcademicDepartment[]>> => {
@@ -87,5 +87,5 @@ const getAllDepartments = async (
 
 export const AcademicDepartmentService = {
   createAcademicDepartment,
-  getAllDepartments,
+  getAllAcademicDepartments,
 };
