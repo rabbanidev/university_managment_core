@@ -11,6 +11,14 @@ router.post(
   StudentController.createStudent
 );
 
+router.patch(
+  '/:id',
+  validateRequestHandler(StudentValidation.updateStudentZodSchema),
+  StudentController.updateStudent
+);
+
+router.delete('/:id', StudentController.deleteStudent);
+
 router.get('/', StudentController.getAllStudents);
 router.get('/:id', StudentController.getStudent);
 
