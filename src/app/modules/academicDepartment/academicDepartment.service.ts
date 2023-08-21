@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import prisma from '../../../shared/prisma';
 import { AcademicDepartment, Prisma } from '@prisma/client';
 import { IGenericResponse } from '../../../interfaces/common';
@@ -103,8 +104,42 @@ const getAcademicDepartment = async (
   return result;
 };
 
+const updateAcademicDepartment = async (
+  id: string,
+  payload: Partial<AcademicDepartment>
+): Promise<AcademicDepartment> => {
+  const result = await prisma.academicDepartment.update({
+    where: {
+      id,
+    },
+    data: payload,
+    include: {
+      academicFaculty: true,
+    },
+  });
+
+  return result;
+};
+
+const deleteAcademicDepartment = async (
+  id: string
+): Promise<AcademicDepartment> => {
+  const result = await prisma.academicDepartment.delete({
+    where: {
+      id,
+    },
+    include: {
+      academicFaculty: true,
+    },
+  });
+
+  return result;
+};
+
 export const AcademicDepartmentService = {
   createAcademicDepartment,
   getAllAcademicDepartments,
   getAcademicDepartment,
+  updateAcademicDepartment,
+  deleteAcademicDepartment,
 };
