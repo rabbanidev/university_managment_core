@@ -11,4 +11,7 @@ router.post(
   StudentController.createStudent
 );
 
+router.get('/', StudentController.getAllStudents);
+router.get('/:id', StudentController.getStudent);
+
 export const StudentRoutes = router;
