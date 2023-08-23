@@ -14,6 +14,21 @@ router.post(
   BuildingController.createBuilding
 );
 
+router.patch(
+  '/:id',
+  auth(ENUMS_USER_ROLE.SUPER_ADMIN, ENUMS_USER_ROLE.ADMIN),
+  validateRequestHandler(BuildingValidation.updateBuildingZodSchema),
+  BuildingController.updateBuilding
+);
+
+router.delete(
+  '/:id',
+  auth(ENUMS_USER_ROLE.SUPER_ADMIN, ENUMS_USER_ROLE.ADMIN),
+  BuildingController.deleteBuilding
+);
+
 router.get('/', BuildingController.getAllBuildings);
+
+router.get('/:id', BuildingController.getBuilding);
 
 export const BuildingRoutes = router;

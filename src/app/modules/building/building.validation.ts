@@ -8,6 +8,13 @@ const createBuildingZodSchema = z.object({
   }),
 });
 
+const updateBuildingZodSchema = z.object({
+  body: z.object({
+    title: z.string().optional(),
+  }),
+});
+
 export const BuildingValidation = {
   createBuildingZodSchema,
+  updateBuildingZodSchema,
 };
