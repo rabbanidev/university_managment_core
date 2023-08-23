@@ -11,4 +11,6 @@ router.post(
   BuildingController.createBuilding
 );
 
+router.get('/', BuildingController.getAllBuildings);
+
 export const BuildingRoutes = router;
