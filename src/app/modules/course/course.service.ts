@@ -155,6 +155,90 @@ const getCourse = async (id: string): Promise<Course | null> => {
   return result;
 };
 
+const updateCourse = async (
+  id: string,
+  payload: ICourseCreateData
+): Promise<Course | null> => {
+  const { preRequisiteCourses, ...courseData } = payload;
+
+  const updatedCourse = await prisma.$transaction(async (tx) => {
+    const result = await tx.course.update({
+      where: {
+        id,
+      },
+      data: courseData,
+    });
+
+    if (!result) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Unable to update course!');
+    }
+
+    if (preRequisiteCourses && preRequisiteCourses.length > 0) {
+      const deletePrereqisiteCourses = preRequisiteCourses.filter(
+        (preRequisiteCourse) =>
+          preRequisiteCourse.courseId && preRequisiteCourse.isDeleted
+      );
+
+      const newPrereqisiteCourses = preRequisiteCourses.filter(
+        (preRequisiteCourse) =>
+          preRequisiteCourse.courseId && !preRequisiteCourse.isDeleted
+      );
+
+      // Delete prerequisites courses
+      for (let i = 0; i < deletePrereqisiteCourses.length; i++) {
+        await tx.courseToPrerequisite.deleteMany({
+          where: {
+            AND: [
+              {
+                courseId: id,
+              },
+              {
+                prerequisiteId: deletePrereqisiteCourses[i].courseId,
+              },
+            ],
+          },
+        });
+      }
+
+      // Add new prerequisite courses
+      for (let i = 0; i < newPrereqisiteCourses.length; i++) {
+        await tx.courseToPrerequisite.create({
+          data: {
+            courseId: id,
+            prerequisiteId: newPrereqisiteCourses[i].courseId,
+          },
+        });
+      }
+    }
+
+    return result;
+  });
+
+  if (updatedCourse) {
+    const responseData = await prisma.course.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        preRequisite: {
+          include: {
+            preRequisite: true,
+          },
+        },
+        preRequisiteFor: {
+          include: {
+            course: true,
+          },
+        },
+      },
+    });
+
+    return responseData;
+  }
+
+  throw new ApiError(httpStatus.BAD_REQUEST, 'Unable to update course!');
+};
+
 const deleteCourse = async (id: string): Promise<Course> => {
   await prisma.courseToPrerequisite.deleteMany({
     where: {
@@ -182,4 +266,5 @@ export const CourseService = {
   getCourses,
   getCourse,
   deleteCourse,
+  updateCourse,
 };

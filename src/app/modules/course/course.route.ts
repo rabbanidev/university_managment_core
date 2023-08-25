@@ -9,9 +9,16 @@ const router = express.Router();
 
 router.post(
   '/create-course',
-  auth(ENUMS_USER_ROLE.SUPER_ADMIN, ENUMS_USER_ROLE.ADMIN),
+  // auth(ENUMS_USER_ROLE.SUPER_ADMIN, ENUMS_USER_ROLE.ADMIN),
   validateRequestHandler(CourseValidation.createCourseZodSchema),
   CourseController.createCourse
+);
+
+router.patch(
+  '/:id',
+  // auth(ENUMS_USER_ROLE.SUPER_ADMIN, ENUMS_USER_ROLE.ADMIN),
+  validateRequestHandler(CourseValidation.updateCourseZodSchema),
+  CourseController.updateCourse
 );
 
 router.delete(
@@ -20,8 +27,8 @@ router.delete(
   CourseController.deleteCourse
 );
 
-router.post('/', CourseController.getCourses);
+router.get('/', CourseController.getCourses);
 
-router.post('/:id', CourseController.getCourse);
+router.get('/:id', CourseController.getCourse);
 
 export const CourseRoutes = router;
