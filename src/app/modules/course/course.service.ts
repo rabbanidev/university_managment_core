@@ -326,7 +326,7 @@ const assignFaculties = async (
     data: courseFacultiesArray,
   });
 
-  if (createdCourseFaculties.count > 0) {
+  if (createdCourseFaculties.count <= 0) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Unable to assign faculties!');
   }
 
@@ -356,8 +356,8 @@ const removeFaculties = async (
     },
   });
 
-  if (removeAssignCourses.count > 0) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Unable to assign faculties!');
+  if (removeAssignCourses.count <= 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Unable to remove faculties!');
   }
 
   const result = await prisma.courseFaculty.findMany({

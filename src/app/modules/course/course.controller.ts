@@ -75,7 +75,7 @@ const assignFaculties = catchAsync(async (req: Request, res: Response) => {
   sendResponse<CourseFaculty[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Course successfully created!',
+    message: 'Course Faculty assigned successfully created!',
     data: result,
   });
 });
@@ -89,7 +89,7 @@ const removeFaculties = catchAsync(async (req: Request, res: Response) => {
   sendResponse<CourseFaculty[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Course successfully deleted!',
+    message: 'Course Faculty removed successfully!',
     data: result,
   });
 });
