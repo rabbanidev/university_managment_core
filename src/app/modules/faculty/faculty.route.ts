@@ -34,14 +34,14 @@ router.get('/:id', FacultyController.getFaculty);
 router.post(
   '/:id/assign-courses',
   auth(ENUMS_USER_ROLE.SUPER_ADMIN, ENUMS_USER_ROLE.ADMIN),
-  validateRequestHandler(FacultyValidation.assignCoursesZodSchema),
+  validateRequestHandler(FacultyValidation.assignOrRemoveCoursesZodSchema),
   FacultyController.assignCourses
 );
 
 router.delete(
   '/:id/remove-courses',
   auth(ENUMS_USER_ROLE.SUPER_ADMIN, ENUMS_USER_ROLE.ADMIN),
-  validateRequestHandler(FacultyValidation.removeCoursesZodSchema),
+  validateRequestHandler(FacultyValidation.assignOrRemoveCoursesZodSchema),
   FacultyController.removeCourses
 );
 

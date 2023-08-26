@@ -1,0 +1,36 @@
+{
+  message: 'Server running on port 5000',
+  level: 'info',
+  label: 'University Managment',
+  timestamp: '2023-08-26T18:15:41.367Z'
+}
+{
+  message: 'Server running on port 5000',
+  level: 'info',
+  label: 'University Managment',
+  timestamp: '2023-08-26T18:16:29.487Z'
+}
+{
+  message: 'Server running on port 5000',
+  level: 'info',
+  label: 'University Managment',
+  timestamp: '2023-08-26T18:16:59.631Z'
+}
+{
+  message: 'Server running on port 5000',
+  level: 'info',
+  label: 'University Managment',
+  timestamp: '2023-08-26T18:17:15.595Z'
+}
+{
+  message: 'Server running on port 5000',
+  level: 'info',
+  label: 'University Managment',
+  timestamp: '2023-08-26T18:18:25.713Z'
+}
+{
+  message: 'Server running on port 5000',
+  level: 'info',
+  label: 'University Managment',
+  timestamp: '2023-08-26T18:18:41.443Z'
+}
