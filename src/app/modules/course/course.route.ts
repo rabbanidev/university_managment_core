@@ -31,4 +31,11 @@ router.get('/', CourseController.getCourses);
 
 router.get('/:id', CourseController.getCourse);
 
+router.post(
+  '/:id/assign-faculties',
+  auth(ENUMS_USER_ROLE.SUPER_ADMIN, ENUMS_USER_ROLE.ADMIN),
+  validateRequestHandler(CourseValidation.assignFacultiesZodSchema),
+  CourseController.assignFaculties
+);
+
 export const CourseRoutes = router;

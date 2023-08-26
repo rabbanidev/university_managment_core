@@ -7,7 +7,7 @@ import {
   IPreRequisiteCourse,
 } from './course.interface';
 import { courseSearchableFields } from './course.constant';
-import { Course, Prisma } from '@prisma/client';
+import { Course, CourseFaculty, Prisma } from '@prisma/client';
 import { paginationHelpers } from '../../../helper/paginationHelpers';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { IGenericResponse } from '../../../interfaces/common';
@@ -249,7 +249,7 @@ const updateCourse = async (
       //   });
       // }
 
-      // Another way
+      // Add new prerequisite courses (Another way)
       await GlobalUtils.asyncForEach(
         newPrereqisiteCourses,
         async (newPrereqisiteCourse: IPreRequisiteCourse) => {
@@ -313,10 +313,41 @@ const deleteCourse = async (id: string): Promise<Course> => {
   return result;
 };
 
+const assignFaculties = async (
+  id: string,
+  payload: string[]
+): Promise<CourseFaculty[]> => {
+  const courseFacultiesArray = payload.map((facultyId) => ({
+    courseId: id,
+    facultyId: facultyId,
+  }));
+
+  const createdCourseFaculties = await prisma.courseFaculty.createMany({
+    data: courseFacultiesArray,
+  });
+
+  if (createdCourseFaculties.count > 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Unable to assign faculties!');
+  }
+
+  const result = await prisma.courseFaculty.findMany({
+    where: {
+      courseId: id,
+    },
+    include: {
+      course: true,
+      faculty: true,
+    },
+  });
+
+  return result;
+};
+
 export const CourseService = {
   createCourse,
   getCourses,
   getCourse,
   deleteCourse,
   updateCourse,
+  assignFaculties,
 };
