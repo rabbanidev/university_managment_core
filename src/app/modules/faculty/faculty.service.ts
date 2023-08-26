@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import prisma from '../../../shared/prisma';
-import { Faculty, Prisma } from '@prisma/client';
+import { CourseFaculty, Faculty, Prisma } from '@prisma/client';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { paginationHelpers } from '../../../helper/paginationHelpers';
@@ -10,6 +10,8 @@ import {
   facultyRelationalFieldsMapper,
   facultySearchableFields,
 } from './faculty.constant';
+import ApiError from '../../../errors/ApiError';
+import httpStatus from 'http-status';
 
 const createFaculty = async (payload: Faculty): Promise<Faculty> => {
   const result = await prisma.faculty.create({
@@ -136,10 +138,71 @@ const deleteFaculty = async (id: string): Promise<Faculty> => {
   return result;
 };
 
+const assignCourses = async (
+  id: string,
+  payload: string[]
+): Promise<CourseFaculty[]> => {
+  const assignedCourses = payload.map((courseId) => ({
+    facultyId: id,
+    courseId: courseId,
+  }));
+  const assignCourses = await prisma.courseFaculty.createMany({
+    data: assignedCourses,
+  });
+
+  if (assignCourses.count <= 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Unable to assign courses!');
+  }
+
+  const result = await prisma.courseFaculty.findMany({
+    where: {
+      facultyId: id,
+    },
+    include: {
+      course: true,
+      faculty: true,
+    },
+  });
+
+  return result;
+};
+
+const removeCourses = async (
+  id: string,
+  payload: string[]
+): Promise<CourseFaculty[]> => {
+  const removeCourses = await prisma.courseFaculty.deleteMany({
+    where: {
+      facultyId: id,
+      courseId: {
+        in: payload,
+      },
+    },
+  });
+
+  if (removeCourses.count <= 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Unable to remove courses!');
+  }
+
+  const result = await prisma.courseFaculty.findMany({
+    where: {
+      facultyId: id,
+    },
+    include: {
+      course: true,
+      faculty: true,
+    },
+  });
+
+  return result;
+};
+
 export const FacultyService = {
   createFaculty,
   getAllFaculties,
   getFaculty,
   updateFaculty,
   deleteFaculty,
+  assignCourses,
+  removeCourses,
 };
