@@ -1,16 +1,21 @@
 import prisma from '../../../shared/prisma';
 import ApiError from '../../../errors/ApiError';
 import httpStatus from 'http-status';
-import { ICourseCreateData, ICourseFilters } from './course.interface';
+import {
+  ICourseCreateData,
+  ICourseFilters,
+  IPreRequisiteCourse,
+} from './course.interface';
 import { courseSearchableFields } from './course.constant';
 import { Course, Prisma } from '@prisma/client';
 import { paginationHelpers } from '../../../helper/paginationHelpers';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { IGenericResponse } from '../../../interfaces/common';
+import { GlobalUtils } from '../../../shared/utils';
 
 const createCourse = async (
   payload: ICourseCreateData
-): Promise<ICourseCreateData> => {
+): Promise<Course | null> => {
   const { preRequisiteCourses, ...courseData } = payload;
 
   const createdCourse = await prisma.$transaction(async (tx) => {
@@ -24,15 +29,30 @@ const createCourse = async (
     }
 
     // created are pre requisities courses
+    // if (preRequisiteCourses && preRequisiteCourses.length > 0) {
+    //   for (let i = 0; i < preRequisiteCourses.length; i++) {
+    //     await tx.courseToPrerequisite.create({
+    //       data: {
+    //         courseId: result.id,
+    //         prerequisiteId: preRequisiteCourses[i].courseId,
+    //       },
+    //     });
+    //   }
+    // }
+
+    // created are pre requisities courses (another way)
     if (preRequisiteCourses && preRequisiteCourses.length > 0) {
-      for (let i = 0; i < preRequisiteCourses.length; i++) {
-        await tx.courseToPrerequisite.create({
-          data: {
-            courseId: result.id,
-            prerequisiteId: preRequisiteCourses[i].courseId,
-          },
-        });
-      }
+      await GlobalUtils.asyncForEach(
+        preRequisiteCourses,
+        async (preRequisiteCourse: IPreRequisiteCourse) => {
+          await tx.courseToPrerequisite.create({
+            data: {
+              courseId: result.id,
+              prerequisiteId: preRequisiteCourse.courseId,
+            },
+          });
+        }
+      );
     }
 
     return result;
@@ -185,30 +205,62 @@ const updateCourse = async (
       );
 
       // Delete prerequisites courses
-      for (let i = 0; i < deletePrereqisiteCourses.length; i++) {
-        await tx.courseToPrerequisite.deleteMany({
-          where: {
-            AND: [
-              {
-                courseId: id,
-              },
-              {
-                prerequisiteId: deletePrereqisiteCourses[i].courseId,
-              },
-            ],
-          },
-        });
-      }
+      // for (let i = 0; i < deletePrereqisiteCourses.length; i++) {
+      //   await tx.courseToPrerequisite.deleteMany({
+      //     where: {
+      //       AND: [
+      //         {
+      //           courseId: id,
+      //         },
+      //         {
+      //           prerequisiteId: deletePrereqisiteCourses[i].courseId,
+      //         },
+      //       ],
+      //     },
+      //   });
+      // }
+
+      // Delete prerequisites courses (Another way)
+      await GlobalUtils.asyncForEach(
+        deletePrereqisiteCourses,
+        async (deletePrereqisiteCourse: IPreRequisiteCourse) => {
+          await tx.courseToPrerequisite.deleteMany({
+            where: {
+              AND: [
+                {
+                  courseId: id,
+                },
+                {
+                  prerequisiteId: deletePrereqisiteCourse.courseId,
+                },
+              ],
+            },
+          });
+        }
+      );
 
       // Add new prerequisite courses
-      for (let i = 0; i < newPrereqisiteCourses.length; i++) {
-        await tx.courseToPrerequisite.create({
-          data: {
-            courseId: id,
-            prerequisiteId: newPrereqisiteCourses[i].courseId,
-          },
-        });
-      }
+      // for (let i = 0; i < newPrereqisiteCourses.length; i++) {
+      //   await tx.courseToPrerequisite.create({
+      //     data: {
+      //       courseId: id,
+      //       prerequisiteId: newPrereqisiteCourses[i].courseId,
+      //     },
+      //   });
+      // }
+
+      // Another way
+      await GlobalUtils.asyncForEach(
+        newPrereqisiteCourses,
+        async (newPrereqisiteCourse: IPreRequisiteCourse) => {
+          await tx.courseToPrerequisite.create({
+            data: {
+              courseId: id,
+              prerequisiteId: newPrereqisiteCourse.courseId,
+            },
+          });
+        }
+      );
     }
 
     return result;

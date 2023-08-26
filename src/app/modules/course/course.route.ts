@@ -9,14 +9,14 @@ const router = express.Router();
 
 router.post(
   '/create-course',
-  // auth(ENUMS_USER_ROLE.SUPER_ADMIN, ENUMS_USER_ROLE.ADMIN),
+  auth(ENUMS_USER_ROLE.SUPER_ADMIN, ENUMS_USER_ROLE.ADMIN),
   validateRequestHandler(CourseValidation.createCourseZodSchema),
   CourseController.createCourse
 );
 
 router.patch(
   '/:id',
-  // auth(ENUMS_USER_ROLE.SUPER_ADMIN, ENUMS_USER_ROLE.ADMIN),
+  auth(ENUMS_USER_ROLE.SUPER_ADMIN, ENUMS_USER_ROLE.ADMIN),
   validateRequestHandler(CourseValidation.updateCourseZodSchema),
   CourseController.updateCourse
 );
