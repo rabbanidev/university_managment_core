@@ -38,4 +38,11 @@ router.post(
   CourseController.assignFaculties
 );
 
+router.delete(
+  '/:id/remove-faculties',
+  auth(ENUMS_USER_ROLE.SUPER_ADMIN, ENUMS_USER_ROLE.ADMIN),
+  validateRequestHandler(CourseValidation.removeFacultiesZodSchema),
+  CourseController.removeFaculties
+);
+
 export const CourseRoutes = router;

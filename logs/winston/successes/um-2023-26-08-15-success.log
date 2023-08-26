@@ -2,83 +2,65 @@
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-26T08:00:29.086Z'
+  timestamp: '2023-08-26T09:08:15.243Z'
 }
 {
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-26T08:02:37.587Z'
+  timestamp: '2023-08-26T09:09:43.525Z'
 }
 {
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-26T08:02:46.123Z'
+  timestamp: '2023-08-26T09:11:35.500Z'
 }
 {
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-26T08:03:10.222Z'
+  timestamp: '2023-08-26T09:12:05.764Z'
 }
 {
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-26T08:05:02.751Z'
+  timestamp: '2023-08-26T09:12:15.594Z'
 }
 {
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-26T08:06:49.511Z'
+  timestamp: '2023-08-26T09:12:19.698Z'
 }
 {
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-26T08:07:08.066Z'
+  timestamp: '2023-08-26T09:12:43.829Z'
 }
 {
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-26T08:07:16.712Z'
+  timestamp: '2023-08-26T09:12:44.997Z'
 }
 {
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-26T08:07:24.469Z'
+  timestamp: '2023-08-26T09:13:36.391Z'
 }
 {
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-26T08:11:56.763Z'
+  timestamp: '2023-08-26T09:13:43.649Z'
 }
 {
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-26T08:13:42.801Z'
-}
-{
-  message: 'Server running on port 5000',
-  level: 'info',
-  label: 'University Managment',
-  timestamp: '2023-08-26T08:14:05.049Z'
-}
-{
-  message: 'Server running on port 5000',
-  level: 'info',
-  label: 'University Managment',
-  timestamp: '2023-08-26T08:14:31.866Z'
-}
-{
-  message: 'Server running on port 5000',
-  level: 'info',
-  label: 'University Managment',
-  timestamp: '2023-08-26T08:15:50.873Z'
+  timestamp: '2023-08-26T09:16:27.711Z'
 }

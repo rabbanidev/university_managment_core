@@ -343,6 +343,36 @@ const assignFaculties = async (
   return result;
 };
 
+const removeFaculties = async (
+  id: string,
+  payload: string[]
+): Promise<CourseFaculty[]> => {
+  const removeAssignCourses = await prisma.courseFaculty.deleteMany({
+    where: {
+      courseId: id,
+      facultyId: {
+        in: payload,
+      },
+    },
+  });
+
+  if (removeAssignCourses.count > 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Unable to assign faculties!');
+  }
+
+  const result = await prisma.courseFaculty.findMany({
+    where: {
+      courseId: id,
+    },
+    include: {
+      course: true,
+      faculty: true,
+    },
+  });
+
+  return result;
+};
+
 export const CourseService = {
   createCourse,
   getCourses,
@@ -350,4 +380,5 @@ export const CourseService = {
   deleteCourse,
   updateCourse,
   assignFaculties,
+  removeFaculties,
 };
