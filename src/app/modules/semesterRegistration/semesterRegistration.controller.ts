@@ -6,6 +6,7 @@ import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { paginationFields } from '../../../constants/pagination';
 import { SemesterRegistrationService } from './semesterRegistration.service';
+import { semesterRegistrationFilterableFields } from './semesterRegistration.constant';
 
 const createSemesterRegistration = catchAsync(
   async (req: Request, res: Response) => {
@@ -22,6 +23,60 @@ const createSemesterRegistration = catchAsync(
   }
 );
 
+const getAllSemesterRegistrations = catchAsync(
+  async (req: Request, res: Response) => {
+    const filters = pick(req.query, semesterRegistrationFilterableFields);
+    const paginationOptions = pick(req.query, paginationFields);
+
+    const result =
+      await SemesterRegistrationService.getAllSemesterRegistrations(
+        filters,
+        paginationOptions
+      );
+
+    sendResponse<SemesterRegistration[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Semester Registrations successfully fetched!',
+      meta: result.meta,
+      data: result.data,
+    });
+  }
+);
+
+const getSemesterRegistration = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await SemesterRegistrationService.getSemesterRegistration(
+      req.params.id
+    );
+
+    sendResponse<SemesterRegistration>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Semester Registration successfully fetched!',
+      data: result,
+    });
+  }
+);
+
+const deleteSemesterRegistration = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await SemesterRegistrationService.deleteSemesterRegistration(
+      req.params.id
+    );
+
+    sendResponse<SemesterRegistration>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Semester Registration successfully deleted!',
+      data: result,
+    });
+  }
+);
+
 export const SemesterRegistrationController = {
   createSemesterRegistration,
+  getAllSemesterRegistrations,
+  getSemesterRegistration,
+  deleteSemesterRegistration,
 };
