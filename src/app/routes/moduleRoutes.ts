@@ -6,6 +6,7 @@ import { BuildingRoutes } from '../modules/building/building.route';
 import { CourseRoutes } from '../modules/course/course.route';
 import { FacultyRoutes } from '../modules/faculty/faculty.route';
 import { RoomRoutes } from '../modules/room/room.route';
+import { SemesterRegistrationRoutes } from '../modules/semesterRegistration/semesterRegistration.route';
 import { StudentRoutes } from '../modules/student/student.route';
 
 const modulesRoutes: IRoute[] = [
@@ -40,6 +41,10 @@ const modulesRoutes: IRoute[] = [
   {
     path: '/courses',
     route: CourseRoutes,
+  },
+  {
+    path: '/semester-registrations',
+    route: SemesterRegistrationRoutes,
   },
 ];
 
