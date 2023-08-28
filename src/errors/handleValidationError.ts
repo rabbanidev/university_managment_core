@@ -1,16 +1,16 @@
-import { Error } from 'mongoose';
 import { IGenericErrorMessage } from '../interfaces/error';
 import { IGenericErrorResponse } from '../interfaces/common';
+import { Prisma } from '@prisma/client';
 
 const handleValidationError = (
-  error: Error.ValidationError
+  error: Prisma.PrismaClientValidationError
 ): IGenericErrorResponse => {
-  const listOfErrors = Object.values(error.errors);
-  const errors: IGenericErrorMessage[] = listOfErrors.map(
-    (el: Error.ValidatorError | Error.CastError) => {
-      return { path: el?.path, message: el?.message };
-    }
-  );
+  const errors: IGenericErrorMessage[] = [
+    {
+      path: '',
+      message: error.message,
+    },
+  ];
 
   const statusCode = 400;
   const message = 'Validation Error';
