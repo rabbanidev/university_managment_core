@@ -16,6 +16,15 @@ router.post(
   SemesterRegistrationController.createSemesterRegistration
 );
 
+router.patch(
+  '/:id',
+  auth(ENUMS_USER_ROLE.SUPER_ADMIN, ENUMS_USER_ROLE.ADMIN),
+  validateRequestHandler(
+    SemesterRegistrationValidation.updateSemesterRegistrationZodSchema
+  ),
+  SemesterRegistrationController.updateSemesterRegistration
+);
+
 router.delete(
   '/:id',
   auth(ENUMS_USER_ROLE.SUPER_ADMIN, ENUMS_USER_ROLE.ADMIN),
