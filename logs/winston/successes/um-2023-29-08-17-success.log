@@ -1,0 +1,6 @@
+{
+  message: 'Server running on port 5000',
+  level: 'info',
+  label: 'University Managment',
+  timestamp: '2023-08-29T11:37:58.862Z'
+}
