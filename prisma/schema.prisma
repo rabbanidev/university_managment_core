@@ -179,15 +179,11 @@ model SemesterRegistration {
 
   academicSemesterId String
   academicSemester   AcademicSemester @relation(fields: [academicSemesterId], references: [id])
-  offeredCourses     OfferedCourse[]
+
+  offeredCourses        OfferedCourse[]
+  offeredCourseSections OfferedCourseSection[]
 
   @@map("semeter_registrations")
-}
-
-enum SemeterRegistrationStatus {
-  UPCOMING
-  ONGOING
-  ENDED
 }
 
 model OfferedCourse {
@@ -203,4 +199,31 @@ model OfferedCourse {
 
   semesterRegistrationId String
   semesterRegistration   SemesterRegistration @relation(fields: [semesterRegistrationId], references: [id])
+
+  offeredCourseSections OfferedCourseSection[]
+
+  @@map("offered_courses")
+}
+
+model OfferedCourseSection {
+  id                       String   @id @default(uuid())
+  title                    String
+  maxCapacity              Int
+  currentlyEnrolledStudent Int      @default(0)
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  offeredCourseId String
+  offeredCourse   OfferedCourse @relation(fields: [offeredCourseId], references: [id])
+
+  semesterRegistrationId String
+  semesterRegistration   SemesterRegistration @relation(fields: [semesterRegistrationId], references: [id])
+
+  @@map("offered_course_sections")
+}
+
+enum SemeterRegistrationStatus {
+  UPCOMING
+  ONGOING
+  ENDED
 }
