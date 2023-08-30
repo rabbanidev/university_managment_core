@@ -5,6 +5,8 @@ import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { OfferedCoursesectionService } from './offeredCourseSection.service';
 import { OfferedCourseSection } from '@prisma/client';
+import { offeredCourseSectionFilterableFields } from './offeredCourseSection.constant';
+import { paginationFields } from '../../../constants/pagination';
 
 const createOfferedCourseSection = catchAsync(
   async (req: Request, res: Response) => {
@@ -32,6 +34,26 @@ const getOfferedCourseSection = catchAsync(
       success: true,
       message: 'Offered course section successfully fetched!',
       data: result,
+    });
+  }
+);
+
+const getAllOfferedCourseSections = catchAsync(
+  async (req: Request, res: Response) => {
+    const filters = pick(req.query, offeredCourseSectionFilterableFields);
+    const paginationOptions = pick(req.query, paginationFields);
+    const result =
+      await OfferedCoursesectionService.getAllOfferedCourseSections(
+        filters,
+        paginationOptions
+      );
+
+    sendResponse<OfferedCourseSection[]>(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'Offered course sections successfully fetched!',
+      meta: result.meta,
+      data: result.data,
     });
   }
 );
@@ -69,6 +91,7 @@ const deleteOfferedCourseSection = catchAsync(
 
 export const OfferedCourseSectionController = {
   createOfferedCourseSection,
+  getAllOfferedCourseSections,
   getOfferedCourseSection,
   updateOfferedCourseSection,
   deleteOfferedCourseSection,

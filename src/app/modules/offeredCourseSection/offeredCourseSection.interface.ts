@@ -5,3 +5,8 @@ export type IOfferedCourseSection = {
   semesterRegistrationId: string;
   currentlyEnrolledStudent: number;
 };
+
+export type IOfferedCourseSectionFilters = {
+  searchTerm?: string | undefined;
+  offeredCourseId?: string | undefined;
+};

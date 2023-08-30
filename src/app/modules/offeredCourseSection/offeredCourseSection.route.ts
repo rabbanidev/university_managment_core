@@ -31,6 +31,8 @@ router.delete(
   OfferedCourseSectionController.deleteOfferedCourseSection
 );
 
+router.get('/', OfferedCourseSectionController.getAllOfferedCourseSections);
+
 router.get('/:id', OfferedCourseSectionController.getOfferedCourseSection);
 
 export const OfferedCourseSectionRoutes = router;
