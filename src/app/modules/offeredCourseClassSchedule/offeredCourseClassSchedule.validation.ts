@@ -1,5 +1,5 @@
 import { WeekDays } from '@prisma/client';
-import { string, z } from 'zod';
+import { z } from 'zod';
 
 const create = z.object({
   body: z.object({
