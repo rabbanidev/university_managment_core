@@ -35,4 +35,10 @@ router.get('/', SemesterRegistrationController.getAllSemesterRegistrations);
 
 router.get('/:id', SemesterRegistrationController.getSemesterRegistration);
 
+router.post(
+  '/start-registration',
+  auth(ENUMS_USER_ROLE.STUDENT),
+  SemesterRegistrationController.startMyRegistration
+);
+
 export const SemesterRegistrationRoutes = router;
