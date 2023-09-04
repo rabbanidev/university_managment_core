@@ -22,3 +22,9 @@
   label: 'University Managment',
   timestamp: '2023-08-31T13:04:05.510Z'
 }
+{
+  message: 'Server running on port 5000',
+  level: 'info',
+  label: 'University Managment',
+  timestamp: '2023-08-31T13:05:58.789Z'
+}
