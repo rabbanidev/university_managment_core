@@ -2,71 +2,53 @@
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-21T15:08:09.209Z'
+  timestamp: '2023-09-05T13:27:59.529Z'
 }
 {
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-21T15:13:41.052Z'
+  timestamp: '2023-09-05T13:29:46.519Z'
 }
 {
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-21T15:14:44.297Z'
+  timestamp: '2023-09-05T13:35:03.805Z'
 }
 {
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-21T15:14:49.306Z'
+  timestamp: '2023-09-05T13:50:16.522Z'
 }
 {
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-21T15:15:18.692Z'
+  timestamp: '2023-09-05T13:51:19.012Z'
 }
 {
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-21T15:17:26.086Z'
+  timestamp: '2023-09-05T13:51:35.331Z'
 }
 {
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-21T15:20:57.097Z'
+  timestamp: '2023-09-05T13:52:12.727Z'
 }
 {
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-21T15:21:02.710Z'
+  timestamp: '2023-09-05T13:54:28.119Z'
 }
 {
   message: 'Server running on port 5000',
   level: 'info',
   label: 'University Managment',
-  timestamp: '2023-08-21T15:24:12.786Z'
-}
-{
-  message: 'Server running on port 5000',
-  level: 'info',
-  label: 'University Managment',
-  timestamp: '2023-08-21T15:24:26.834Z'
-}
-{
-  message: 'Server running on port 5000',
-  level: 'info',
-  label: 'University Managment',
-  timestamp: '2023-08-21T15:24:29.459Z'
-}
-{
-  message: 'Server running on port 5000',
-  level: 'info',
-  label: 'University Managment',
-  timestamp: '2023-08-21T15:26:43.839Z'
+  timestamp: '2023-09-05T13:59:19.089Z'
 }

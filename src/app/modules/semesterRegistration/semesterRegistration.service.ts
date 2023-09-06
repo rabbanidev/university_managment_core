@@ -8,7 +8,10 @@ import prisma from '../../../shared/prisma';
 import ApiError from '../../../errors/ApiError';
 import httpStatus from 'http-status';
 import { IPaginationOptions } from '../../../interfaces/pagination';
-import { ISemesterRegistrationFilters } from './semesterRegistration.interface';
+import {
+  IEnrollIntoCourse,
+  ISemesterRegistrationFilters,
+} from './semesterRegistration.interface';
 import {
   semesterRegistrationRelationalFields,
   semesterRegistrationRelationalFieldsMapper,
@@ -17,6 +20,7 @@ import {
 import { paginationHelpers } from '../../../helper/paginationHelpers';
 import { IGenericResponse } from '../../../interfaces/common';
 import { SemesterRegistrationUtils } from './semesterRegistration.utils';
+import { StudentSemesterRegistrationCourseService } from '../studentSemesterRegistrationCourse/studentSemesterRegistrationCourse.service';
 
 const createSemesterRegistration = async (
   payload: SemesterRegistration
@@ -252,6 +256,26 @@ const startMyRegistration = async (
   };
 };
 
+const enrollIntoCourse = async (
+  authUserId: string,
+  payload: IEnrollIntoCourse
+): Promise<{ message: string }> => {
+  return StudentSemesterRegistrationCourseService.enrollIntoCourse(
+    authUserId,
+    payload
+  );
+};
+
+const withdrawFromCourse = async (
+  authUserId: string,
+  payload: IEnrollIntoCourse
+): Promise<{ message: string }> => {
+  return StudentSemesterRegistrationCourseService.withdrawFromCourse(
+    authUserId,
+    payload
+  );
+};
+
 export const SemesterRegistrationService = {
   createSemesterRegistration,
   getAllSemesterRegistrations,
@@ -259,4 +283,6 @@ export const SemesterRegistrationService = {
   updateSemesterRegistration,
   deleteSemesterRegistration,
   startMyRegistration,
+  enrollIntoCourse,
+  withdrawFromCourse,
 };

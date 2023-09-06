@@ -3,3 +3,8 @@ export type ISemesterRegistrationFilters = {
   id?: string;
   academicSemesterId?: string;
 };
+
+export type IEnrollIntoCourse = {
+  offeredCourseId: string;
+  offeredCourseSectionId: string;
+};
