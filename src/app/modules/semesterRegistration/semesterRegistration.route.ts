@@ -31,6 +31,12 @@ router.delete(
   SemesterRegistrationController.deleteSemesterRegistration
 );
 
+router.get(
+  '/get-my-registration',
+  auth(ENUMS_USER_ROLE.STUDENT),
+  SemesterRegistrationController.getMyRegistration
+);
+
 router.get('/', SemesterRegistrationController.getAllSemesterRegistrations);
 
 router.get('/:id', SemesterRegistrationController.getSemesterRegistration);
@@ -57,6 +63,12 @@ router.post(
     SemesterRegistrationValidation.enrollOrWithdrawZodSchema
   ),
   SemesterRegistrationController.withdrawFromCourse
+);
+
+router.post(
+  '/confirm-my-registration',
+  auth(ENUMS_USER_ROLE.STUDENT),
+  SemesterRegistrationController.confirmMyRegistration
 );
 
 export const SemesterRegistrationRoutes = router;

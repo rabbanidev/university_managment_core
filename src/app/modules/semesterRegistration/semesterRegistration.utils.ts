@@ -3,6 +3,7 @@ import {
   SemesterRegistration,
   SemeterRegistrationStatus,
   Student,
+  StudentSemesterRegistration,
 } from '@prisma/client';
 import prisma from '../../../shared/prisma';
 import ApiError from '../../../errors/ApiError';
@@ -125,6 +126,32 @@ const exitStudentEnrollment = async (
   }
 };
 
+const studentSemesterRegistration = async (
+  authUserId: string,
+  semesterRegistration: SemesterRegistration
+): Promise<StudentSemesterRegistration> => {
+  const studentSemesterRegistration =
+    await prisma.studentSemesterRegistration.findFirst({
+      where: {
+        semetsterRegistration: {
+          id: semesterRegistration.id,
+        },
+        student: {
+          studentId: authUserId,
+        },
+      },
+    });
+
+  if (!studentSemesterRegistration) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'Your are not recoginized for semester!'
+    );
+  }
+
+  return studentSemesterRegistration;
+};
+
 export const SemesterRegistrationUtils = {
   getStudentInfo,
   getSemesterRegistratioInfo,
@@ -132,4 +159,5 @@ export const SemesterRegistrationUtils = {
   getOfferedCourse,
   getOfferedCourseSection,
   exitStudentEnrollment,
+  studentSemesterRegistration,
 };
