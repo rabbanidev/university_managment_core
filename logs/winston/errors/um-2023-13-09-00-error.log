@@ -1,0 +1,36 @@
+{
+  name: 'PrismaClientKnownRequestError',
+  code: 'P2028',
+  clientVersion: '5.1.1',
+  meta: { error: 'Transaction already closed: Could not perform operation.' },
+  level: 'error',
+  label: 'University Managment',
+  timestamp: '2023-09-12T18:05:53.761Z'
+}
+{
+  name: 'PrismaClientKnownRequestError',
+  code: 'P2028',
+  clientVersion: '5.1.1',
+  meta: { error: 'Transaction already closed: Could not perform operation.' },
+  level: 'error',
+  label: 'University Managment',
+  timestamp: '2023-09-12T18:07:02.151Z'
+}
+{
+  name: 'PrismaClientKnownRequestError',
+  code: 'P2028',
+  clientVersion: '5.1.1',
+  meta: { error: 'Transaction already closed: Could not perform operation.' },
+  level: 'error',
+  label: 'University Managment',
+  timestamp: '2023-09-12T18:12:59.263Z'
+}
+{
+  name: 'PrismaClientKnownRequestError',
+  code: 'P2028',
+  clientVersion: '5.1.1',
+  meta: { error: 'Transaction already closed: Could not perform operation.' },
+  level: 'error',
+  label: 'University Managment',
+  timestamp: '2023-09-12T18:18:14.866Z'
+}

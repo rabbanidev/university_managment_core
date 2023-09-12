@@ -1,0 +1,11 @@
+{
+  name: 'PrismaClientKnownRequestError',
+  code: 'P2028',
+  clientVersion: '5.1.1',
+  meta: {
+    error: 'Transaction already closed: A query cannot be executed on a committed transaction.'
+  },
+  level: 'error',
+  label: 'University Managment',
+  timestamp: '2023-09-12T03:20:55.002Z'
+}
