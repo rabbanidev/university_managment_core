@@ -7,11 +7,17 @@ import {
   DefaultArgs,
   PrismaClientOptions,
 } from '@prisma/client/runtime/library';
-import { IStudentEnrolledCourseMarkFilterRequest } from './studentEnrolledCourseMark.interface';
+import {
+  IStudentEnrolledCourseMarkFilterRequest,
+  IUpdateStudentMarksPayload,
+} from './studentEnrolledCourseMark.interface';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { IGenericResponse } from '../../../interfaces/common';
 import { paginationHelpers } from '../../../helper/paginationHelpers';
 import prisma from '../../../shared/prisma';
+import { StudentEnrolledCourseMarkUtils } from './studentEnrolledCourseMark.utils';
+import ApiError from '../../../errors/ApiError';
+import httpStatus from 'http-status';
 
 const createStudentEnrolledCourseDefaultMark = async (
   prismaClient: Omit<
@@ -143,8 +149,50 @@ const getAllStudentEnrolledCourseMarks = async (
   };
 };
 
-const updateStudentMarks = async (payload: any) => {
-  console.log(payload);
+const updateStudentMarks = async (
+  payload: IUpdateStudentMarksPayload
+): Promise<StudentEnrolledCourseMark> => {
+  const { studentId, academicSemesterId, courseId, examType, marks } = payload;
+
+  const exitStudentEnrolledCourseMark =
+    await prisma.studentEnrolledCourseMark.findFirst({
+      where: {
+        student: {
+          id: studentId,
+        },
+        academicSemester: {
+          id: academicSemesterId,
+        },
+        studentEnrolledCourse: {
+          course: {
+            id: courseId,
+          },
+        },
+        examType: examType,
+      },
+    });
+
+  if (!exitStudentEnrolledCourseMark) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      'Student enrolled course mark not found!'
+    );
+  }
+
+  const result = StudentEnrolledCourseMarkUtils.getGradeFromMarks(marks);
+
+  const updatedStudentEnrolledCourseMark =
+    await prisma.studentEnrolledCourseMark.update({
+      where: {
+        id: exitStudentEnrolledCourseMark.id,
+      },
+      data: {
+        marks,
+        grade: result.grade,
+      },
+    });
+
+  return updatedStudentEnrolledCourseMark;
 };
 
 export const StudentEnrolledCourseMarkService = {
