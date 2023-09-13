@@ -1,0 +1,18 @@
+export const studentSemesterPaymentFilterableFields: string[] = [
+  'searchTerm',
+  'academicSemesterId',
+  'studentId',
+];
+
+export const studentSemesterPaymentSearchableFields: string[] = [];
+
+export const studentSemesterPaymentRelationalFields: string[] = [
+  'academicSemesterId',
+  'studentId',
+];
+export const studentSemesterPaymentRelationalFieldsMapper: {
+  [key: string]: string;
+} = {
+  academicSemesterId: 'academicSemester',
+  studentId: 'student',
+};
