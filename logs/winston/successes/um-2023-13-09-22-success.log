@@ -1,0 +1,12 @@
+{
+  message: 'Server running on port 5000',
+  level: 'info',
+  label: 'University Managment',
+  timestamp: '2023-09-13T16:02:32.532Z'
+}
+{
+  message: 'Server running on port 5000',
+  level: 'info',
+  label: 'University Managment',
+  timestamp: '2023-09-13T16:02:55.591Z'
+}

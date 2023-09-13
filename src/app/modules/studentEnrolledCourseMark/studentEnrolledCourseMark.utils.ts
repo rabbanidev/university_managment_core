@@ -1,5 +1,6 @@
 import httpStatus from 'http-status';
 import ApiError from '../../../errors/ApiError';
+import { Course, StudentEnrolledCourse } from '@prisma/client';
 
 const getGradeFromMarks = (marks: number): { grade: string; point: number } => {
   if (marks < 0 || marks > 100) {
@@ -45,6 +46,32 @@ const getGradeFromMarks = (marks: number): { grade: string; point: number } => {
   return result;
 };
 
+const calcCGPAandGrade = (
+  payload: (StudentEnrolledCourse & { course: Course })[]
+): { totalCompletedCredit: number; cgpa: number } => {
+  if (payload.length === 0) {
+    return {
+      totalCompletedCredit: 0,
+      cgpa: 0,
+    };
+  }
+
+  let totalCredits = 0;
+  let totalCGPA = 0;
+  for (const grade of payload) {
+    totalCredits += grade.course.credits || 0;
+    totalCGPA += grade.point || 0;
+  }
+
+  const avgCGPA = Number((totalCGPA / payload.length).toFixed(2));
+
+  return {
+    totalCompletedCredit: totalCredits,
+    cgpa: avgCGPA,
+  };
+};
+
 export const StudentEnrolledCourseMarkUtils = {
   getGradeFromMarks,
+  calcCGPAandGrade,
 };

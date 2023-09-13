@@ -1,7 +1,10 @@
 import {
+  Course,
   ExamType,
   PrismaClient,
+  StudentEnrolledCourse,
   StudentEnrolledCourseMark,
+  StudentEnrolledCourseStatus,
 } from '@prisma/client';
 import {
   DefaultArgs,
@@ -9,6 +12,7 @@ import {
 } from '@prisma/client/runtime/library';
 import {
   IStudentEnrolledCourseMarkFilterRequest,
+  IUpdateStudentCourseFinalMarksPayload,
   IUpdateStudentMarksPayload,
 } from './studentEnrolledCourseMark.interface';
 import { IPaginationOptions } from '../../../interfaces/pagination';
@@ -195,8 +199,155 @@ const updateStudentMarks = async (
   return updatedStudentEnrolledCourseMark;
 };
 
+const updateStudentFinalMarks = async (
+  payload: IUpdateStudentCourseFinalMarksPayload
+): Promise<(StudentEnrolledCourse & { course: Course })[]> => {
+  const { studentId, academicSemesterId, courseId } = payload;
+
+  // Check exit student enroll course
+  const exitStudentEnrolledCourse =
+    await prisma.studentEnrolledCourse.findFirst({
+      where: {
+        student: {
+          id: studentId,
+        },
+        academicSemester: {
+          id: academicSemesterId,
+        },
+        course: {
+          id: courseId,
+        },
+      },
+    });
+
+  if (!exitStudentEnrolledCourse) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      'Student enrolled course data not found!'
+    );
+  }
+
+  // Get exit student enrolled course wise data or midtern and final term data
+  const studentEnrolledCourseMarks =
+    await prisma.studentEnrolledCourseMark.findMany({
+      where: {
+        student: {
+          id: studentId,
+        },
+        academicSemester: {
+          id: academicSemesterId,
+        },
+        studentEnrolledCourse: {
+          course: {
+            id: courseId,
+          },
+        },
+      },
+    });
+
+  if (!studentEnrolledCourseMarks.length) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      'Student enrolled course mark not found!'
+    );
+  }
+
+  // Find only midterm marks
+  const midTermMark =
+    studentEnrolledCourseMarks.find(
+      (item) => item.examType === ExamType.MIDTERM
+    )?.marks || 0;
+
+  // Find only final marks
+  const finalTermMark =
+    studentEnrolledCourseMarks.find((item) => item.examType === ExamType.FINAL)
+      ?.marks || 0;
+
+  // Calculate total final marks
+  const totalFinalMarks =
+    Math.ceil(midTermMark * 0.4) + Math.ceil(finalTermMark * 0.6);
+
+  const result =
+    StudentEnrolledCourseMarkUtils.getGradeFromMarks(totalFinalMarks);
+
+  // Update student enrolled course with grade point status and total marks
+  await prisma.studentEnrolledCourse.updateMany({
+    where: {
+      student: {
+        id: studentId,
+      },
+      academicSemester: {
+        id: academicSemesterId,
+      },
+      course: {
+        id: courseId,
+      },
+    },
+    data: {
+      grade: result.grade,
+      point: result.point,
+      totalMarks: totalFinalMarks,
+      status: StudentEnrolledCourseStatus.COMPLETED,
+    },
+  });
+
+  // Get specific student all enrolled completed courses
+  const studentEnrolledCompletedCourses =
+    await prisma.studentEnrolledCourse.findMany({
+      where: {
+        student: {
+          id: studentId,
+        },
+        status: StudentEnrolledCourseStatus.COMPLETED,
+      },
+      include: {
+        course: true,
+      },
+    });
+
+  // Calculate total cgpa and credits
+  const studentAcademicInfo = StudentEnrolledCourseMarkUtils.calcCGPAandGrade(
+    studentEnrolledCompletedCourses
+  );
+
+  const exitStudentAcademicInfo = await prisma.studentAcademicInfo.findFirst({
+    where: {
+      student: {
+        id: studentId,
+      },
+    },
+  });
+
+  if (exitStudentAcademicInfo) {
+    await prisma.studentAcademicInfo.update({
+      where: {
+        id: exitStudentAcademicInfo.id,
+      },
+      data: {
+        totalCompletedCredit: studentAcademicInfo.totalCompletedCredit,
+        cgpa: studentAcademicInfo.cgpa,
+      },
+    });
+  } else {
+    await prisma.studentAcademicInfo.create({
+      data: {
+        student: {
+          connect: {
+            id: studentId,
+          },
+        },
+        totalCompletedCredit: studentAcademicInfo.totalCompletedCredit,
+        cgpa: studentAcademicInfo.cgpa,
+      },
+    });
+  }
+
+  return studentEnrolledCompletedCourses;
+};
+
 export const StudentEnrolledCourseMarkService = {
   createStudentEnrolledCourseDefaultMark,
   getAllStudentEnrolledCourseMarks,
   updateStudentMarks,
+  updateStudentFinalMarks,
 };
