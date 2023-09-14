@@ -28,6 +28,11 @@ router.delete(
 );
 
 router.get('/', StudentController.getAllStudents);
+router.get(
+  '/my-courses',
+  auth(ENUMS_USER_ROLE.STUDENT),
+  StudentController.getMyCourses
+);
 router.get('/:id', StudentController.getStudent);
 
 export const StudentRoutes = router;

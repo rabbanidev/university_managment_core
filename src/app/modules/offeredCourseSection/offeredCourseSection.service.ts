@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { OfferedCourseSection, Prisma } from '@prisma/client';
 import {
   IClassSchedule,
