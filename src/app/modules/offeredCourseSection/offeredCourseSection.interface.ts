@@ -1,9 +1,18 @@
-export type IOfferedCourseSection = {
+import { WeekDays } from '@prisma/client';
+
+export type IClassSchedule = {
+  startTime: string;
+  endTime: string;
+  dayOfWeek: WeekDays;
+  roomId: string;
+  facultyId: string;
+};
+
+export type IOfferedCourseSectionCreate = {
   title: string;
   maxCapacity: number;
   offeredCourseId: string;
-  semesterRegistrationId: string;
-  currentlyEnrolledStudent: number;
+  classSchedules: IClassSchedule[];
 };
 
 export type IOfferedCourseSectionFilters = {
