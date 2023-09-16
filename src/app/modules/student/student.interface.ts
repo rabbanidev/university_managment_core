@@ -9,3 +9,8 @@ export type IStudentFilters = {
   gender?: string;
   bloodGroup?: string;
 };
+
+export type IStudentCourseFilters = {
+  courseId?: string | undefined;
+  academicSemesterId?: string | undefined;
+};

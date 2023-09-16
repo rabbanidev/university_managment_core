@@ -33,6 +33,11 @@ router.get(
   auth(ENUMS_USER_ROLE.STUDENT),
   StudentController.getMyCourses
 );
+router.get(
+  '/my-course-schedules',
+  auth(ENUMS_USER_ROLE.STUDENT),
+  StudentController.getMyCourseSchedules
+);
 router.get('/:id', StudentController.getStudent);
 
 export const StudentRoutes = router;
