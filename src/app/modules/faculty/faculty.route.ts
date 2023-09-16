@@ -29,6 +29,12 @@ router.delete(
 
 router.get('/', FacultyController.getAllFaculties);
 
+router.get(
+  '/my-courses',
+  auth(ENUMS_USER_ROLE.FACULTY),
+  FacultyController.myCourses
+);
+
 router.get('/:id', FacultyController.getFaculty);
 
 router.post(

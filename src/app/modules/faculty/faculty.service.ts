@@ -4,7 +4,7 @@ import { CourseFaculty, Faculty, Prisma } from '@prisma/client';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { paginationHelpers } from '../../../helper/paginationHelpers';
-import { IFacultyFilters } from './faculty.interface';
+import { IFacultyFilters, IMyCoursesPayload } from './faculty.interface';
 import {
   facultyRelationalFields,
   facultyRelationalFieldsMapper,
@@ -197,6 +197,85 @@ const removeCourses = async (
   return result;
 };
 
+const myCourses = async (authUserId: string, filters: IMyCoursesPayload) => {
+  if (!filters.academicSemesterId) {
+    const currentAcademicSemester = await prisma.academicSemester.findFirst({
+      where: {
+        isCurrent: true,
+      },
+    });
+    filters.academicSemesterId = currentAcademicSemester?.id;
+  }
+
+  const offeredCourseSections = await prisma.offeredCourseSection.findMany({
+    where: {
+      offeredCourseClassSchedules: {
+        some: {
+          faculty: {
+            facultyId: authUserId,
+          },
+        },
+      },
+      offeredCourse: {
+        semesterRegistration: {
+          academicSemester: {
+            id: filters.academicSemesterId,
+          },
+        },
+      },
+    },
+    include: {
+      offeredCourse: {
+        include: {
+          course: true,
+        },
+      },
+      offeredCourseClassSchedules: {
+        include: {
+          room: {
+            include: {
+              building: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  const courseAndSchedules = offeredCourseSections.reduce(
+    (acc: any, obj: any) => {
+      const course = obj.offeredCourse.course;
+      const classSchedules = obj.offeredCourseClassSchedules;
+
+      const exitingCourse = acc.find(
+        (item: any) => item.course.id === course.id
+      );
+
+      if (exitingCourse) {
+        exitingCourse.sections.push({
+          section: obj,
+          classSchedules,
+        });
+      } else {
+        acc.push({
+          course,
+          sections: [
+            {
+              section: obj,
+              classSchedules,
+            },
+          ],
+        });
+      }
+
+      return acc;
+    },
+    []
+  );
+
+  return courseAndSchedules;
+};
+
 export const FacultyService = {
   createFaculty,
   getAllFaculties,
@@ -205,4 +284,5 @@ export const FacultyService = {
   deleteFaculty,
   assignCourses,
   removeCourses,
+  myCourses,
 };

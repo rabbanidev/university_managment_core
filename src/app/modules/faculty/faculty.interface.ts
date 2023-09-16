@@ -9,3 +9,8 @@ export type IFacultyFilters = {
   gender?: string;
   bloodGroup?: string;
 };
+
+export type IMyCoursesPayload = {
+  academicSemesterId?: string | undefined | null;
+  courseId?: string | undefined | null;
+};
