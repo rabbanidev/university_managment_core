@@ -35,6 +35,12 @@ router.get(
   FacultyController.myCourses
 );
 
+router.get(
+  '/my-course-students',
+  auth(ENUMS_USER_ROLE.FACULTY),
+  FacultyController.getMyCourseStudents
+);
+
 router.get('/:id', FacultyController.getFaculty);
 
 router.post(
