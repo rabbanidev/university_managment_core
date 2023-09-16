@@ -170,6 +170,20 @@ const startNewSemester = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getMySemesterRegCourses = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await SemesterRegistrationService.getMySemesterRegCourses(
+      req.user.userId
+    );
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'My semester registration courses data fetched!',
+      data: result,
+    });
+  }
+);
+
 export const SemesterRegistrationController = {
   createSemesterRegistration,
   getAllSemesterRegistrations,
@@ -182,4 +196,5 @@ export const SemesterRegistrationController = {
   confirmMyRegistration,
   getMyRegistration,
   startNewSemester,
+  getMySemesterRegCourses,
 };
