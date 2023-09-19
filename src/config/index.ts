@@ -9,4 +9,8 @@ export default {
   jwt: {
     access_secret: process.env.JWT_ACCESS_SECRET,
   },
+  redis: {
+    url: process.env.REDIS_URL,
+    token_expires_in: process.env.REDIS_TOKEN_EXPIRES_IN,
+  },
 };
