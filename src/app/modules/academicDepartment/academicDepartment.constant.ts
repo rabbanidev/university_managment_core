@@ -16,3 +16,5 @@ export const academicDepartmentRelationalFieldsMapper: {
 } = {
   academicFacultyId: 'academicFaculty',
 };
+
+export const EVENT_ACADEMIC_DEPARTMENT_CREATED = 'academic_department.created';

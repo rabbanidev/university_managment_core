@@ -6,10 +6,12 @@ import { IPaginationOptions } from '../../../interfaces/pagination';
 import { paginationHelpers } from '../../../helper/paginationHelpers';
 import { IAcademicDepartmentFilters } from './academicDepartment.interface';
 import {
+  EVENT_ACADEMIC_DEPARTMENT_CREATED,
   academicDepartmentRelationalFields,
   academicDepartmentRelationalFieldsMapper,
   academicDepartmentSearchableFields,
 } from './academicDepartment.constant';
+import { RedisClient } from '../../../shared/redis';
 
 const createAcademicDepartment = async (
   payload: AcademicDepartment
@@ -20,6 +22,13 @@ const createAcademicDepartment = async (
       academicFaculty: true,
     },
   });
+
+  if (result) {
+    RedisClient.publish(
+      EVENT_ACADEMIC_DEPARTMENT_CREATED,
+      JSON.stringify(result)
+    );
+  }
 
   return result;
 };
