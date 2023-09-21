@@ -1,0 +1,48 @@
+{
+  message: 'Redis connected',
+  level: 'info',
+  label: 'University Managment',
+  timestamp: '2023-09-21T17:38:05.240Z'
+}
+{
+  message: 'Server running on port 5000',
+  level: 'info',
+  label: 'University Managment',
+  timestamp: '2023-09-21T17:38:05.257Z'
+}
+{
+  message: 'Redis connected',
+  level: 'info',
+  label: 'University Managment',
+  timestamp: '2023-09-21T17:40:26.727Z'
+}
+{
+  message: 'Server running on port 5000',
+  level: 'info',
+  label: 'University Managment',
+  timestamp: '2023-09-21T17:40:26.762Z'
+}
+{
+  message: 'Redis connected',
+  level: 'info',
+  label: 'University Managment',
+  timestamp: '2023-09-21T17:41:04.828Z'
+}
+{
+  message: 'Server running on port 5000',
+  level: 'info',
+  label: 'University Managment',
+  timestamp: '2023-09-21T17:41:04.846Z'
+}
+{
+  message: 'Redis connected',
+  level: 'info',
+  label: 'University Managment',
+  timestamp: '2023-09-21T17:41:34.129Z'
+}
+{
+  message: 'Server running on port 5000',
+  level: 'info',
+  label: 'University Managment',
+  timestamp: '2023-09-21T17:41:34.148Z'
+}

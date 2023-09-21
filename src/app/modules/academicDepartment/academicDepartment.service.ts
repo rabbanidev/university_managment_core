@@ -7,6 +7,8 @@ import { paginationHelpers } from '../../../helper/paginationHelpers';
 import { IAcademicDepartmentFilters } from './academicDepartment.interface';
 import {
   EVENT_ACADEMIC_DEPARTMENT_CREATED,
+  EVENT_ACADEMIC_DEPARTMENT_DELETED,
+  EVENT_ACADEMIC_DEPARTMENT_UPDATED,
   academicDepartmentRelationalFields,
   academicDepartmentRelationalFieldsMapper,
   academicDepartmentSearchableFields,
@@ -127,6 +129,13 @@ const updateAcademicDepartment = async (
     },
   });
 
+  if (result) {
+    RedisClient.publish(
+      EVENT_ACADEMIC_DEPARTMENT_UPDATED,
+      JSON.stringify(result)
+    );
+  }
+
   return result;
 };
 
@@ -141,6 +150,13 @@ const deleteAcademicDepartment = async (
       academicFaculty: true,
     },
   });
+
+  if (result) {
+    RedisClient.publish(
+      EVENT_ACADEMIC_DEPARTMENT_DELETED,
+      JSON.stringify(result)
+    );
+  }
 
   return result;
 };
