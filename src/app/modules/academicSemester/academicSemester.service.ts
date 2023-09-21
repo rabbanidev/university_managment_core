@@ -6,6 +6,8 @@ import { paginationHelpers } from '../../../helper/paginationHelpers';
 import { IAcademicSemesterFilters } from './academicSemester.interface';
 import {
   EVENT_ACADEMIC_SEMESTER_CREATED,
+  EVENT_ACADEMIC_SEMESTER_DELETED,
+  EVENT_ACADEMIC_SEMESTER_UPDATED,
   academicSemesterSearchableFields,
   academicSemesterTitleCodeMapper,
   academicSemesterTitlesEndMonth,
@@ -145,6 +147,13 @@ const updateAcademicSemester = async (
     data: payload,
   });
 
+  if (result) {
+    RedisClient.publish(
+      EVENT_ACADEMIC_SEMESTER_UPDATED,
+      JSON.stringify(result)
+    );
+  }
+
   return result;
 };
 
@@ -156,6 +165,13 @@ const deleteAcademicSemester = async (
       id,
     },
   });
+
+  if (result) {
+    RedisClient.publish(
+      EVENT_ACADEMIC_SEMESTER_DELETED,
+      JSON.stringify(result)
+    );
+  }
 
   return result;
 };
