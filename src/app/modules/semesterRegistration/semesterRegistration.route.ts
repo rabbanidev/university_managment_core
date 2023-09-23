@@ -31,28 +31,6 @@ router.delete(
   SemesterRegistrationController.deleteSemesterRegistration
 );
 
-router.get(
-  '/get-my-registration',
-  auth(ENUMS_USER_ROLE.STUDENT),
-  SemesterRegistrationController.getMyRegistration
-);
-
-router.get('/', SemesterRegistrationController.getAllSemesterRegistrations);
-
-router.get(
-  '/get-my-semester-courses',
-  auth(ENUMS_USER_ROLE.STUDENT),
-  SemesterRegistrationController.getMySemesterRegCourses
-);
-
-router.get('/:id', SemesterRegistrationController.getSemesterRegistration);
-
-router.post(
-  '/start-registration',
-  auth(ENUMS_USER_ROLE.STUDENT),
-  SemesterRegistrationController.startMyRegistration
-);
-
 router.post(
   '/enroll-course',
   auth(ENUMS_USER_ROLE.STUDENT),
@@ -78,9 +56,31 @@ router.post(
 );
 
 router.post(
-  '/:id/start-new-registration',
+  '/start-registration',
+  auth(ENUMS_USER_ROLE.STUDENT),
+  SemesterRegistrationController.startMyRegistration
+);
+
+router.post(
+  '/:id/start-new-semester',
   auth(ENUMS_USER_ROLE.ADMIN, ENUMS_USER_ROLE.SUPER_ADMIN),
   SemesterRegistrationController.startNewSemester
 );
+
+router.get(
+  '/get-my-registration',
+  auth(ENUMS_USER_ROLE.STUDENT),
+  SemesterRegistrationController.getMyRegistration
+);
+
+router.get(
+  '/get-my-semester-registration-courses',
+  auth(ENUMS_USER_ROLE.STUDENT),
+  SemesterRegistrationController.getMySemesterRegCourses
+);
+
+router.get('/:id', SemesterRegistrationController.getSemesterRegistration);
+
+router.get('/', SemesterRegistrationController.getAllSemesterRegistrations);
 
 export const SemesterRegistrationRoutes = router;

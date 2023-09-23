@@ -1,0 +1,24 @@
+{
+  statusCode: 409,
+  level: 'error',
+  label: 'University Managment',
+  timestamp: '2023-09-23T03:02:46.458Z'
+}
+{
+  statusCode: 400,
+  level: 'error',
+  label: 'University Managment',
+  timestamp: '2023-09-23T03:03:20.085Z'
+}
+{
+  statusCode: 409,
+  level: 'error',
+  label: 'University Managment',
+  timestamp: '2023-09-23T03:06:10.791Z'
+}
+{
+  statusCode: 400,
+  level: 'error',
+  label: 'University Managment',
+  timestamp: '2023-09-23T03:09:46.246Z'
+}

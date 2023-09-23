@@ -50,8 +50,8 @@ const createOfferedCourseSection = async (
 
   // Check offered course class schedule
   GlobalUtils.asyncForEach(classSchedules, async (schedule: any) => {
-    await OferedCourseClassScheduleUtils.hasFacultyAvailable(schedule);
-    await OferedCourseClassScheduleUtils.hasRoomAvailable(schedule);
+    await OferedCourseClassScheduleUtils.checkFacultyAvailable(schedule);
+    await OferedCourseClassScheduleUtils.checkRoomAvailable(schedule);
   });
 
   const createOfferedSection = await prisma.$transaction(
@@ -91,7 +91,7 @@ const createOfferedCourseSection = async (
     }
   );
 
-  const result = await prisma.offeredCourseSection.findFirst({
+  const result = await prisma.offeredCourseSection.findUnique({
     where: {
       id: createOfferedSection.id,
     },
@@ -232,6 +232,8 @@ const updateOfferedCourseSection = async (
 const deleteOfferedCourseSection = async (
   id: string
 ): Promise<OfferedCourseSection> => {
+  console.log('id', id);
+
   const result = await prisma.offeredCourseSection.delete({
     where: {
       id,
@@ -245,6 +247,8 @@ const deleteOfferedCourseSection = async (
       semesterRegistration: true,
     },
   });
+  console.log('result: ' + result);
+
   return result;
 };
 

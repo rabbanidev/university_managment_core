@@ -12,7 +12,7 @@ router.get('/', StudentEnrolledCourseController.getAllStudentEnrolledCourses);
 router.get('/:id', StudentEnrolledCourseController.getStudentEnrolledCourse);
 
 router.post(
-  '/',
+  '/create-student-enrolled-course',
   validateRequestHandler(StudentEnrolledCourseValidation.create),
   auth(ENUMS_USER_ROLE.SUPER_ADMIN, ENUMS_USER_ROLE.ADMIN),
   StudentEnrolledCourseController.createStudentEnrolledCourse
