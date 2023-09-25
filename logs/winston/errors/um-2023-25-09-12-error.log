@@ -1,0 +1,14 @@
+{
+  name: 'PrismaClientValidationError',
+  clientVersion: '5.1.1',
+  level: 'error',
+  label: 'University Managment',
+  timestamp: '2023-09-25T06:15:30.786Z'
+}
+{
+  name: 'PrismaClientValidationError',
+  clientVersion: '5.1.1',
+  level: 'error',
+  label: 'University Managment',
+  timestamp: '2023-09-25T06:19:09.542Z'
+}

@@ -5,6 +5,7 @@ import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { paginationHelpers } from '../../../helper/paginationHelpers';
 import {
+  FacultyCreatedEvent,
   IFacultyFilters,
   IFacultyMyCourseStudentsRequest,
   IMyCoursesPayload,
@@ -358,6 +359,27 @@ const getMyCourseStudents = async (
   };
 };
 
+const createFacultyFromEvent = async (
+  e: FacultyCreatedEvent
+): Promise<void> => {
+  const faculty: Partial<Faculty> = {
+    facultyId: e.id,
+    firstName: e.name.firstName,
+    lastName: e.name.lastName,
+    middleName: e.name.middleName,
+    profileImage: e.profileImage,
+    email: e.email,
+    contactNo: e.contactNo,
+    gender: e.gender,
+    bloodGroup: e.bloodGroup,
+    designation: e.designation,
+    academicDepartmentId: e.academicDepartment.syncId,
+    academicFacultyId: e.academicFaculty.syncId,
+  };
+
+  await createFaculty(faculty as Faculty);
+};
+
 export const FacultyService = {
   createFaculty,
   getAllFaculties,
@@ -368,4 +390,5 @@ export const FacultyService = {
   removeCourses,
   myCourses,
   getMyCourseStudents,
+  createFacultyFromEvent,
 };
